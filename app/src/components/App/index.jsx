@@ -2,6 +2,8 @@ import "./style.css";
 import { useState } from "react";
 import CreateEmployee from "../CreateEmployee";
 import EmployeeList from "../EmployeeList";
+import mockData from "../../utils/mockData";
+import REACT_APP_ENV from "../../utils/processEnvironment";
 
 const App = () => {
   const [onCreatePage, setOnCreatePage] = useState(true);
@@ -18,7 +20,10 @@ const App = () => {
           setOnCreatePage={setOnCreatePage}
         />
       )) || (
-        <EmployeeList employees={employees} setOnCreatePage={setOnCreatePage} />
+        <EmployeeList
+          employees={REACT_APP_ENV === "DEV" ? mockData : employees}
+          setOnCreatePage={setOnCreatePage}
+        />
       )}
     </>
   );

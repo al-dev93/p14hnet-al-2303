@@ -102,8 +102,9 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
               id="state"
               name="state"
               onChange={(event) => handleChange(event)}
+              defaultValue="A"
             >
-              <option selected>A</option>
+              <option>A</option>
               <option>B</option>
               <option>C</option>
             </select>
@@ -126,8 +127,9 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
             id="department"
             name="department"
             onChange={(event) => handleChange(event)}
+            defaultValue="Sales"
           >
-            <option selected>Sales</option>
+            <option>Sales</option>
             <option>Marketing</option>
             <option>Engineering</option>
             <option>Human Resources</option>
