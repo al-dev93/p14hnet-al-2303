@@ -1,4 +1,21 @@
 /* stylelint-disable a11y/media-prefers-color-scheme */
+.employee-table label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+}
+
+.data-table-filter {
+  float: right;
+  text-align: right;
+  color: #333;
+}
+
+.data-table-filter input {
+  box-sizing: border-box;
+  margin-left: 0.5em;
+}
+
 .data-table {
   width: 100%;
   margin: 0 auto;

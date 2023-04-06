@@ -1,10 +1,41 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import style from "./style.module.css";
 
 const DataTable = ({ employees, columnsTitle }) => {
+  const [filter, setFilter] = useState();
+
+  function renderTableRow(row, index) {
+    const tableRow = Object.entries(row);
+
+    if (
+      (filter &&
+        tableRow.filter(([, value]) =>
+          value.toUpperCase().includes(filter.toUpperCase())
+        ).length) ||
+      !filter
+    ) {
+      return tableRow.map(([key, value]) => (
+        <td key={`${key}-${index + 1}`}>{value}</td>
+      ));
+    }
+    return null;
+  }
+
   return (
-    <div>
-      <table role="grid" className={style["data-table"]}>
+    <div className={style["employee-table"]}>
+      <div className={style["data-table-filter"]}>
+        <label htmlFor="filter-input">
+          Search:
+          <input
+            id="filter-input"
+            type="search"
+            aria-controls="employee-table"
+            onChange={(event) => setFilter(event.target.value)}
+          />
+        </label>
+      </div>
+      <table id="employee-table" role="grid" className={style["data-table"]}>
         <thead>
           <tr role="row">
             {columnsTitle.map((cell) => (
@@ -27,9 +58,7 @@ const DataTable = ({ employees, columnsTitle }) => {
               role="row"
               key={`${index + 1}`}
             >
-              {Object.entries(row).map(([key, value]) => (
-                <td key={`${key}-${index + 1}`}>{value}</td>
-              ))}
+              {renderTableRow(row, index)}
             </tr>
           ))}
         </tbody>
