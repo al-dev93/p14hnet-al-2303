@@ -1,5 +1,14 @@
+/* stylelint-disable property-no-vendor-prefix */
 /* stylelint-disable a11y/media-prefers-color-scheme */
-.employee-table label {
+.data-table-container {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.data-table-container label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 10px;
@@ -64,6 +73,11 @@
   background-color: #fff;
 }
 
+.data-table tbody tr:hover,
+.data-table tbody tr:focus {
+  background-color: #f6f6f6;
+}
+
 .data-table tbody td {
   padding: 8px 10px;
   border-top: 1px solid #ddd;
@@ -75,4 +89,18 @@
 
 .data-table tbody tr.odd {
   background-color: #f9f9f9;
+}
+
+.data-table tbody tr > .sorting,
+.data-table tbody tr.even > .sorting {
+  background-color: #fafafa;
+}
+
+.data-table tbody tr:hover > .sorting,
+.data-table tbody tr:focus > .sorting {
+  background-color: #eaeaea;
+}
+
+.data-table tbody tr.odd > .sorting {
+  background-color: #f1f1f1;
 }

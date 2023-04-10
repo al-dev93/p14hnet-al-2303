@@ -7,7 +7,7 @@ const EmployeeList = ({ employees, setOnCreatePage }) => (
   <div className="container">
     {console.log(employees)}
     <h2>Current Employees</h2>
-    <DataTable employees={employees} columnsTitle={columnsTitle} />
+    <DataTable dataTable={employees} columnsTitle={columnsTitle} />
     <button
       className={style["nav-button"]}
       type="button"
