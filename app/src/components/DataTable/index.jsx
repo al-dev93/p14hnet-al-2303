@@ -51,6 +51,11 @@ const DataTable = ({ dataTable, columnsTitle }) => {
 
   function handleSortingClick(event) {
     const copySorting = [...sorting];
+    const newSortingClick = {
+      column: event.target.headers,
+      sort: "sorting-asc",
+      compare: ascendingCompare,
+    };
     const index = sorting.findIndex(
       (sortItem) => sortItem.column === event.target.headers
     );
@@ -60,24 +65,13 @@ const DataTable = ({ dataTable, columnsTitle }) => {
         if (copySorting[index].sort !== "sorting-desc")
           copySorting[index] = changeSortDirection(copySorting[index]);
         else if (copySorting.length > 1) copySorting.splice(index, 1);
-      } else
-        copySorting.push({
-          column: event.target.headers,
-          sort: "sorting-asc",
-          compare: ascendingCompare,
-        });
+      } else copySorting.push(newSortingClick);
+
       setSorting([...copySorting]);
       return;
     }
     if (index > -1) setSorting([changeSortDirection(sorting[index])]);
-    else
-      setSorting([
-        {
-          column: event.target.headers,
-          sort: "sorting-asc",
-          compare: ascendingCompare,
-        },
-      ]);
+    else setSorting([newSortingClick]);
   }
 
   const renderTableRow = (row, index) => {
