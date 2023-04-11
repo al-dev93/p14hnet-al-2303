@@ -14,6 +14,10 @@
   margin-bottom: 10px;
 }
 
+.data-table-length {
+  float: left;
+}
+
 .data-table-filter {
   float: right;
   text-align: right;

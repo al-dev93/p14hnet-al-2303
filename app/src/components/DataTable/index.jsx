@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from "prop-types";
 import { useState } from "react";
 import style from "./style.module.css";
@@ -17,6 +18,8 @@ function changeSortDirection(current) {
 }
 
 const DataTable = ({ dataTable, columnsTitle }) => {
+  const [lengthTable, setLengthTable] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState();
   const [sorting, setSorting] = useState([
     {
@@ -25,6 +28,15 @@ const DataTable = ({ dataTable, columnsTitle }) => {
       compare: ascendingCompare,
     },
   ]);
+
+  function filterTable() {
+    return dataTable.filter(
+      (row) =>
+        Object.entries(row).findIndex(([, value]) =>
+          value.toUpperCase().includes(filter.toUpperCase())
+        ) >= 0
+    );
+  }
 
   function compareValue(a, b) {
     return sorting.reduce(
@@ -35,12 +47,6 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     );
   }
 
-  function sortedTable() {
-    const copyOfData = [...dataTable];
-    copyOfData.sort((a, b) => compareValue(a, b));
-    return copyOfData;
-  }
-
   function setSortIcon(currentColumn) {
     const icon = sorting.filter(
       (sortItem) => sortItem.column === currentColumn
@@ -49,7 +55,14 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     return "sorting";
   }
 
-  function handleSortingClick(event) {
+  function handleChange(event) {
+    setCurrentPage(1);
+    if (event.target.name === "select-length")
+      setLengthTable(+event.target.value);
+    else setFilter(event.target.value);
+  }
+
+  function handleSortClick(event) {
     const copySorting = [...sorting];
     const newSortingClick = {
       column: event.target.headers,
@@ -75,45 +88,53 @@ const DataTable = ({ dataTable, columnsTitle }) => {
   }
 
   const renderTableRow = (row, index) => {
-    const tableRow = Object.entries(row);
-
-    if (
-      (filter &&
-        tableRow.filter(([, value]) =>
-          value.toUpperCase().includes(filter.toUpperCase())
-        ).length) ||
-      !filter
-    ) {
-      return tableRow.map(([key, value]) => (
-        <td
-          className={
-            sorting.find((sortItem) => sortItem.column === key)
-              ? style.sorting
-              : null
-          }
-          key={`${key}-${index + 1}`}
-        >
-          {value}
-        </td>
-      ));
-    }
-    return null;
+    return Object.entries(row).map(([key, value]) => (
+      <td
+        className={
+          sorting.find((sortItem) => sortItem.column === key)
+            ? style.sorting
+            : null
+        }
+        key={`${key}-${index + 1}`}
+      >
+        {value}
+      </td>
+    ));
   };
 
   return (
     <div className={style["data-table-container"]}>
+      <div className={style["data-table-length"]}>
+        <label htmlFor="select-length">
+          {`Show `}
+          <select
+            id="select-length"
+            name="select-length"
+            aria-controls="id-data-table"
+            defaultValue="10"
+            onChange={(event) => handleChange(event)}
+          >
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          {` entries`}
+        </label>
+      </div>
       <div className={style["data-table-filter"]}>
         <label htmlFor="filter-input">
           Search:
           <input
             id="filter-input"
+            name="filter-input"
             type="search"
-            aria-controls="employee-table"
-            onChange={(event) => setFilter(event.target.value)}
+            aria-controls="id-data-table"
+            onChange={(event) => handleChange(event)}
           />
         </label>
       </div>
-      <table id="employee-table" role="grid" className={style["data-table"]}>
+      <table id="id-data-table" role="grid" className={style["data-table"]}>
         <thead>
           <tr role="row">
             {columnsTitle.map((cell) => (
@@ -123,7 +144,7 @@ const DataTable = ({ dataTable, columnsTitle }) => {
                 rowSpan="1"
                 colSpan="1"
                 key={`${cell.data}-0`}
-                onClick={(event) => handleSortingClick(event)}
+                onClick={(event) => handleSortClick(event)}
                 headers={`${cell.data}`}
               >
                 {cell.title}
@@ -132,17 +153,36 @@ const DataTable = ({ dataTable, columnsTitle }) => {
           </tr>
         </thead>
         <tbody>
-          {sortedTable().map((row, index) => (
-            <tr
-              className={(index + 1) % 2 ? style.odd : style.even}
-              role="row"
-              key={`${index + 1}`}
-            >
-              {renderTableRow(row, index)}
-            </tr>
-          ))}
+          {(filter ? filterTable() : [...dataTable])
+            .sort((a, b) => compareValue(a, b))
+            .slice(lengthTable * (currentPage - 1), lengthTable * currentPage)
+            .map((row, index) => (
+              <tr
+                className={(index + 1) % 2 ? style.odd : style.even}
+                role="row"
+                key={`${index + 1}`}
+              >
+                {renderTableRow(row, index)}
+              </tr>
+            ))}
         </tbody>
       </table>
+      <span>
+        <a
+          href="#"
+          onClick={(event) => {
+            setCurrentPage(+event.target.textContent);
+          }}
+        >
+          1
+        </a>
+        <a
+          href="#"
+          onClick={(event) => setCurrentPage(+event.target.textContent)}
+        >
+          2
+        </a>
+      </span>
     </div>
   );
 };
