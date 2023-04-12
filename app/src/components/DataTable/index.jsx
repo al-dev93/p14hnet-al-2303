@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import style from "./style.module.css";
+import TableNavBar from "../TableNavBar";
 
 function ascendingCompare(a, b) {
   return a.localeCompare(b, "fr", { ignorePunctuation: true });
@@ -18,9 +19,12 @@ function changeSortDirection(current) {
 }
 
 const DataTable = ({ dataTable, columnsTitle }) => {
-  const [lengthTable, setLengthTable] = useState(10);
+  const [lengthTable, setLengthTable] = useState({
+    rows: 10,
+    pages: Math.ceil(dataTable.length / 10),
+  });
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState("");
   const [sorting, setSorting] = useState([
     {
       column: "firstName",
@@ -29,13 +33,20 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     },
   ]);
 
+  function unfilterTable() {
+    lengthTable.pages = Math.ceil(dataTable.length / lengthTable.rows);
+    return dataTable;
+  }
+
   function filterTable() {
-    return dataTable.filter(
+    const filtered = dataTable.filter(
       (row) =>
         Object.entries(row).findIndex(([, value]) =>
           value.toUpperCase().includes(filter.toUpperCase())
         ) >= 0
     );
+    lengthTable.pages = Math.ceil(filtered.length / lengthTable.rows);
+    return filtered;
   }
 
   function compareValue(a, b) {
@@ -57,9 +68,14 @@ const DataTable = ({ dataTable, columnsTitle }) => {
 
   function handleChange(event) {
     setCurrentPage(1);
-    if (event.target.name === "select-length")
-      setLengthTable(+event.target.value);
-    else setFilter(event.target.value);
+    if (event.target.name === "select-length") {
+      setLengthTable({
+        rows: +event.target.value,
+        pages: Math.ceil(dataTable.length / +event.target.value),
+      });
+      return;
+    }
+    setFilter(event.target.value);
   }
 
   function handleSortClick(event) {
@@ -153,9 +169,12 @@ const DataTable = ({ dataTable, columnsTitle }) => {
           </tr>
         </thead>
         <tbody>
-          {(filter ? filterTable() : [...dataTable])
+          {(filter ? filterTable() : unfilterTable())
             .sort((a, b) => compareValue(a, b))
-            .slice(lengthTable * (currentPage - 1), lengthTable * currentPage)
+            .slice(
+              lengthTable.rows * (currentPage - 1),
+              lengthTable.rows * currentPage
+            )
             .map((row, index) => (
               <tr
                 className={(index + 1) % 2 ? style.odd : style.even}
@@ -167,22 +186,11 @@ const DataTable = ({ dataTable, columnsTitle }) => {
             ))}
         </tbody>
       </table>
-      <span>
-        <a
-          href="#"
-          onClick={(event) => {
-            setCurrentPage(+event.target.textContent);
-          }}
-        >
-          1
-        </a>
-        <a
-          href="#"
-          onClick={(event) => setCurrentPage(+event.target.textContent)}
-        >
-          2
-        </a>
-      </span>
+      <TableNavBar
+        pages={`${lengthTable.pages}`}
+        current={`${currentPage}`}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

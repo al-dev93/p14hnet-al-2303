@@ -1,11 +1,16 @@
-/* stylelint-disable property-no-vendor-prefix */
 /* stylelint-disable a11y/media-prefers-color-scheme */
 .data-table-container {
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  position: relative;
+  clear: both;
   user-select: none;
+}
+
+.data-table-container::after {
+  visibility: hidden;
+  display: block;
+  content: "";
+  clear: both;
+  height: 0;
 }
 
 .data-table-container label {
@@ -100,11 +105,11 @@
   background-color: #fafafa;
 }
 
+.data-table tbody tr.odd > .sorting {
+  background-color: #f1f1f1;
+}
+
 .data-table tbody tr:hover > .sorting,
 .data-table tbody tr:focus > .sorting {
   background-color: #eaeaea;
-}
-
-.data-table tbody tr.odd > .sorting {
-  background-color: #f1f1f1;
 }
