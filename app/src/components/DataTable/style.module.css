@@ -19,21 +19,6 @@
   margin-bottom: 10px;
 }
 
-.data-table-length {
-  float: left;
-}
-
-.data-table-filter {
-  float: right;
-  text-align: right;
-  color: #333;
-}
-
-.data-table-filter input {
-  box-sizing: border-box;
-  margin-left: 0.5em;
-}
-
 .data-table {
   width: 100%;
   margin: 0 auto;

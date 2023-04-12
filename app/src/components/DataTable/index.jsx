@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import style from "./style.module.css";
 import TableNavBar from "../TableNavBar";
+import SelectTableLength from "../SelectTableLength";
+import InputTableFilter from "../InputTableFilter";
 
 function ascendingCompare(a, b) {
   return a.localeCompare(b, "fr", { ignorePunctuation: true });
@@ -66,18 +68,6 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     return "sorting";
   }
 
-  function handleChange(event) {
-    setCurrentPage(1);
-    if (event.target.name === "select-length") {
-      setLengthTable({
-        rows: +event.target.value,
-        pages: Math.ceil(dataTable.length / +event.target.value),
-      });
-      return;
-    }
-    setFilter(event.target.value);
-  }
-
   function handleSortClick(event) {
     const copySorting = [...sorting];
     const newSortingClick = {
@@ -120,36 +110,12 @@ const DataTable = ({ dataTable, columnsTitle }) => {
 
   return (
     <div className={style["data-table-container"]}>
-      <div className={style["data-table-length"]}>
-        <label htmlFor="select-length">
-          {`Show `}
-          <select
-            id="select-length"
-            name="select-length"
-            aria-controls="id-data-table"
-            defaultValue="10"
-            onChange={(event) => handleChange(event)}
-          >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-          {` entries`}
-        </label>
-      </div>
-      <div className={style["data-table-filter"]}>
-        <label htmlFor="filter-input">
-          Search:
-          <input
-            id="filter-input"
-            name="filter-input"
-            type="search"
-            aria-controls="id-data-table"
-            onChange={(event) => handleChange(event)}
-          />
-        </label>
-      </div>
+      <SelectTableLength
+        length={dataTable.length}
+        setCurrentPage={setCurrentPage}
+        setLengthTable={setLengthTable}
+      />
+      <InputTableFilter setCurrentPage={setCurrentPage} setFilter={setFilter} />
       <table id="id-data-table" role="grid" className={style["data-table"]}>
         <thead>
           <tr role="row">
