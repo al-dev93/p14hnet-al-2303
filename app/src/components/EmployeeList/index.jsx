@@ -5,7 +5,6 @@ import columnsTitle from "../../utils/columnsTitle";
 
 const EmployeeList = ({ employees, setOnCreatePage }) => (
   <div className="container">
-    {console.log(employees)}
     <h2>Current Employees</h2>
     <DataTable dataTable={employees} columnsTitle={columnsTitle} />
     <button

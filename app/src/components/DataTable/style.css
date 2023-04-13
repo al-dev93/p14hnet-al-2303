@@ -43,46 +43,23 @@
   outline: none;
 }
 
-.data-table thead .sorting,
-.data-table thead .sorting-asc,
-.data-table thead .sorting-desc {
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-position: center right;
-}
-
-.data-table thead .sorting {
-  background-image: url("../../assets/sort_both.png");
-}
-
-.data-table thead .sorting-asc {
-  background-image: url("../../assets/sort_asc.png");
-}
-
-.data-table thead .sorting-desc {
-  background-image: url("../../assets/sort_desc.png");
-}
-
 .data-table tbody tr {
   background-color: #fff;
 }
 
-.data-table tbody tr:hover,
-.data-table tbody tr:focus {
-  background-color: #f6f6f6;
+.data-table tbody tr.odd {
+  background-color: #f9f9f9;
 }
 
-.data-table tbody td {
-  padding: 8px 10px;
-  border-top: 1px solid #ddd;
+.data-table tbody tr:hover,
+.data-table tbody tr:focus,
+.data-table tbody tr.odd:hover,
+.data-table tbody tr.odd:focus {
+  background-color: #f6f6f6;
 }
 
 .data-table tbody tr:first-child td {
   border-top: none;
-}
-
-.data-table tbody tr.odd {
-  background-color: #f9f9f9;
 }
 
 .data-table tbody tr > .sorting,

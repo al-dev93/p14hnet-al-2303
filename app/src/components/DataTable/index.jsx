@@ -1,24 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from "prop-types";
 import { useState } from "react";
-import style from "./style.module.css";
+import "./style.css";
 import TableNavBar from "../TableNavBar";
 import SelectTableLength from "../SelectTableLength";
 import InputTableFilter from "../InputTableFilter";
-
-function ascendingCompare(a, b) {
-  return a.localeCompare(b, "fr", { ignorePunctuation: true });
-}
-
-function descendingCompare(a, b) {
-  return b.localeCompare(a, "fr", { ignorePunctuation: true });
-}
-
-function changeSortDirection(current) {
-  return current.sort === "sorting-asc"
-    ? { ...current, sort: "sorting-desc", compare: descendingCompare }
-    : { ...current, sort: "sorting-asc", compare: ascendingCompare };
-}
+import { ascendingCompare } from "../ColumnDataTable/index";
+import RowDataTable from "../RowDataTable";
 
 const DataTable = ({ dataTable, columnsTitle }) => {
   const [lengthTable, setLengthTable] = useState({
@@ -35,22 +23,6 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     },
   ]);
 
-  function unfilterTable() {
-    lengthTable.pages = Math.ceil(dataTable.length / lengthTable.rows);
-    return dataTable;
-  }
-
-  function filterTable() {
-    const filtered = dataTable.filter(
-      (row) =>
-        Object.entries(row).findIndex(([, value]) =>
-          value.toUpperCase().includes(filter.toUpperCase())
-        ) >= 0
-    );
-    lengthTable.pages = Math.ceil(filtered.length / lengthTable.rows);
-    return filtered;
-  }
-
   function compareValue(a, b) {
     return sorting.reduce(
       (accCompare, sortingValue) =>
@@ -60,96 +32,51 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     );
   }
 
-  function setSortIcon(currentColumn) {
-    const icon = sorting.filter(
-      (sortItem) => sortItem.column === currentColumn
-    );
-    if (icon.length) return icon[icon.length - 1].sort;
-    return "sorting";
-  }
-
-  function handleSortClick(event) {
-    const copySorting = [...sorting];
-    const newSortingClick = {
-      column: event.target.headers,
-      sort: "sorting-asc",
-      compare: ascendingCompare,
-    };
-    const index = sorting.findIndex(
-      (sortItem) => sortItem.column === event.target.headers
-    );
-
-    if (event.shiftKey) {
-      if (index > -1) {
-        if (copySorting[index].sort !== "sorting-desc")
-          copySorting[index] = changeSortDirection(copySorting[index]);
-        else if (copySorting.length > 1) copySorting.splice(index, 1);
-      } else copySorting.push(newSortingClick);
-
-      setSorting([...copySorting]);
-      return;
+  function orderTable() {
+    let copyTable = [...dataTable];
+    if (filter) {
+      copyTable = dataTable.filter(
+        (row) =>
+          columnsTitle.findIndex((column) =>
+            row[column.data].toUpperCase().includes(filter.toUpperCase())
+          ) >= 0
+      );
     }
-    if (index > -1) setSorting([changeSortDirection(sorting[index])]);
-    else setSorting([newSortingClick]);
+    lengthTable.pages = Math.ceil(copyTable.length / lengthTable.rows);
+    return copyTable
+      .sort((a, b) => compareValue(a, b))
+      .slice(
+        lengthTable.rows * (currentPage - 1),
+        lengthTable.rows * currentPage
+      );
   }
-
-  const renderTableRow = (row, index) => {
-    return Object.entries(row).map(([key, value]) => (
-      <td
-        className={
-          sorting.find((sortItem) => sortItem.column === key)
-            ? style.sorting
-            : null
-        }
-        key={`${key}-${index + 1}`}
-      >
-        {value}
-      </td>
-    ));
-  };
 
   return (
-    <div className={style["data-table-container"]}>
+    <div className="data-table-container">
       <SelectTableLength
         length={dataTable.length}
         setCurrentPage={setCurrentPage}
         setLengthTable={setLengthTable}
       />
       <InputTableFilter setCurrentPage={setCurrentPage} setFilter={setFilter} />
-      <table id="id-data-table" role="grid" className={style["data-table"]}>
+      <table id="id-data-table" role="grid" className="data-table">
         <thead>
-          <tr role="row">
-            {columnsTitle.map((cell) => (
-              <th
-                className={style[setSortIcon(cell.data)]}
-                tabIndex="0"
-                rowSpan="1"
-                colSpan="1"
-                key={`${cell.data}-0`}
-                onClick={(event) => handleSortClick(event)}
-                headers={`${cell.data}`}
-              >
-                {cell.title}
-              </th>
-            ))}
-          </tr>
+          <RowDataTable
+            columnsTitle={columnsTitle}
+            sorting={sorting}
+            setSorting={setSorting}
+          />
         </thead>
         <tbody>
-          {(filter ? filterTable() : unfilterTable())
-            .sort((a, b) => compareValue(a, b))
-            .slice(
-              lengthTable.rows * (currentPage - 1),
-              lengthTable.rows * currentPage
-            )
-            .map((row, index) => (
-              <tr
-                className={(index + 1) % 2 ? style.odd : style.even}
-                role="row"
-                key={`${index + 1}`}
-              >
-                {renderTableRow(row, index)}
-              </tr>
-            ))}
+          {orderTable().map((row, index) => (
+            <RowDataTable
+              key={`row_${index + 1}`}
+              row={row}
+              rowId={index + 1}
+              columnsTitle={columnsTitle}
+              sorting={sorting}
+            />
+          ))}
         </tbody>
       </table>
       <TableNavBar
