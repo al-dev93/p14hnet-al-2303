@@ -9,6 +9,7 @@ const SelectTableLength = ({ length, setCurrentPage, setLengthTable }) => {
     setLengthTable({
       rows: +event.target.value,
       pages: Math.ceil(length / +event.target.value),
+      lengthTableFiltered: length,
     });
   }
 

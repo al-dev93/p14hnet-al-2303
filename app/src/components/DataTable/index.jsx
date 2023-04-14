@@ -2,16 +2,18 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "./style.css";
-import TableNavBar from "../TableNavBar";
 import SelectTableLength from "../SelectTableLength";
 import InputTableFilter from "../InputTableFilter";
-import { ascendingCompare } from "../ColumnDataTable/index";
 import RowDataTable from "../RowDataTable";
+import TableInfo from "../TableInfo";
+import TableNavBar from "../TableNavBar";
+import { ascendingCompare } from "../ColumnDataTable/index";
 
 const DataTable = ({ dataTable, columnsTitle }) => {
   const [lengthTable, setLengthTable] = useState({
     rows: 10,
     pages: Math.ceil(dataTable.length / 10),
+    lengthTableOrdered: dataTable.length,
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
@@ -34,6 +36,7 @@ const DataTable = ({ dataTable, columnsTitle }) => {
 
   function orderTable() {
     let copyTable = [...dataTable];
+    lengthTable.lengthTableOrdered = dataTable.length;
     if (filter) {
       copyTable = dataTable.filter(
         (row) =>
@@ -41,6 +44,7 @@ const DataTable = ({ dataTable, columnsTitle }) => {
             row[column.data].toUpperCase().includes(filter.toUpperCase())
           ) >= 0
       );
+      lengthTable.lengthTableOrdered = copyTable.length;
     }
     lengthTable.pages = Math.ceil(copyTable.length / lengthTable.rows);
     return copyTable
@@ -54,7 +58,7 @@ const DataTable = ({ dataTable, columnsTitle }) => {
   return (
     <div className="data-table-container">
       <SelectTableLength
-        length={dataTable.length}
+        length={lengthTable.lengthTableOrdered}
         setCurrentPage={setCurrentPage}
         setLengthTable={setLengthTable}
       />
@@ -79,6 +83,11 @@ const DataTable = ({ dataTable, columnsTitle }) => {
           ))}
         </tbody>
       </table>
+      <TableInfo
+        dataTableLength={dataTable.length}
+        lengthTable={lengthTable}
+        currentPage={currentPage}
+      />
       <TableNavBar
         pages={`${lengthTable.pages}`}
         current={`${currentPage}`}
