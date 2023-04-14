@@ -120,6 +120,17 @@ const mockData = [
     state: "KY",
     zipCode: "76000",
   },
+  {
+    firstName: "Estelle",
+    lastName: "Rebelle",
+    startDate: "24/02/1999",
+    department: "Legal",
+    dateOfBirth: "30/01/1967",
+    street: "transversale",
+    city: "Clermont-Ferrand",
+    state: "CF",
+    zipCode: "63000",
+  },
 ];
 
 export default mockData;

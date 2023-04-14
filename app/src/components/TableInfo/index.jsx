@@ -2,15 +2,17 @@ import PropTypes from "prop-types";
 import style from "./style.module.css";
 
 const TableInfo = ({ dataTableLength, lengthTable, currentPage }) => {
+  const startOfCurrentPage = lengthTable.lengthTableOrdered
+    ? lengthTable.rows * (currentPage - 1) + 1
+    : 0;
+  const endOfCurrentPage =
+    currentPage * lengthTable.rows <= lengthTable.lengthTableOrdered
+      ? currentPage * lengthTable.rows
+      : lengthTable.lengthTableOrdered;
+
   return (
     <div className={style["data-table-info"]}>
-      <p>
-        {`Showing ${lengthTable.rows * (currentPage - 1) + 1} to ${
-          currentPage * lengthTable.rows <= lengthTable.lengthTableOrdered
-            ? currentPage * lengthTable.rows
-            : lengthTable.lengthTableOrdered
-        }`}
-      </p>
+      <p>{`Showing ${startOfCurrentPage} to ${endOfCurrentPage}`}</p>
       {(dataTableLength === lengthTable.lengthTableOrdered && (
         <p>{`of ${lengthTable.lengthTableOrdered} entries`}</p>
       )) || <p>{`entries (filtered from ${dataTableLength} total entries)`}</p>}
