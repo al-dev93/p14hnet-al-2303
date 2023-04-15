@@ -10,13 +10,9 @@ label {
 }
 
 input {
-  width: 69.277%;
-}
-
-input,
-select {
-  margin-top: 10px;
   box-sizing: border-box;
+  width: 69.277%;
+  margin-top: 10px;
 }
 
 .address {

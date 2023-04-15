@@ -1,15 +1,38 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import Select from "react-select";
+import { departmentOption, stateOption } from "../../utils/selectOptions";
 import style from "./style.module.css";
 
 const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
   const [newEmployee, setNewEmployee] = useState({
-    state: "A",
-    department: "Sales",
+    state: stateOption[0].value,
+    department: departmentOption[4].value,
   });
+  const selectStyle = {
+    control: (base) => ({
+      ...base,
+      ":hover": { backgroundColor: "#ededed" },
+      backgroundColor: "#f6f6f6",
+      cursor: "pointer",
+    }),
+    container: (base) => ({
+      ...base,
+      marginTop: 10,
+    }),
+  };
 
-  function handleChange(event) {
-    setNewEmployee({ ...newEmployee, [event.target.name]: event.target.value });
+  function handleChange(event, employeeProperty = undefined) {
+    if (employeeProperty)
+      setNewEmployee({
+        ...newEmployee,
+        [employeeProperty]: event.value,
+      });
+    else
+      setNewEmployee({
+        ...newEmployee,
+        [event.target.name]: event.target.value,
+      });
   }
 
   function handleSubmit(event) {
@@ -73,6 +96,7 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
 
         <fieldset className={style.address}>
           <legend>Address</legend>
+
           <label htmlFor="street">
             Street
             <input
@@ -95,19 +119,18 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
             />
           </label>
 
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="state">
             State
-            <select
-              className="state"
-              id="state"
+            <Select
+              inputId="state"
               name="state"
-              onChange={(event) => handleChange(event)}
-              defaultValue="A"
-            >
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
-            </select>
+              onChange={(newValue) => handleChange(newValue, "state")}
+              styles={selectStyle}
+              openMenuOnFocus
+              defaultValue={stateOption[0]}
+              options={stateOption}
+            />
           </label>
 
           <label htmlFor="zip-code">
@@ -121,20 +144,18 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
           </label>
         </fieldset>
 
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="department">
           Department
-          <select
-            id="department"
+          <Select
+            inputId="department"
             name="department"
-            onChange={(event) => handleChange(event)}
-            defaultValue="Sales"
-          >
-            <option>Sales</option>
-            <option>Marketing</option>
-            <option>Engineering</option>
-            <option>Human Resources</option>
-            <option>Legal</option>
-          </select>
+            onChange={(newValue) => handleChange(newValue, "department")}
+            styles={selectStyle}
+            openMenuOnFocus
+            defaultValue={departmentOption[4]}
+            options={departmentOption}
+          />
         </label>
       </form>
 
