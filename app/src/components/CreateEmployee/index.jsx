@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from "prop-types";
 import { useState } from "react";
 import Select from "react-select";
 import { departmentOption, stateOption } from "../../utils/selectOptions";
+import InputDatePicker from "../InputDatePicker";
 import style from "./style.module.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
   const [newEmployee, setNewEmployee] = useState({
@@ -40,6 +43,7 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
     setEmployees([...employees, newEmployee]);
     event.target.reset();
   }
+
   return (
     <div className="container">
       <button
@@ -74,24 +78,12 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
 
         <label htmlFor="date-of-birth">
           Date of Birth
-          <input
-            id="date-of-birth"
-            type="text"
-            name="dateOfBirth"
-            onChange={(event) => handleChange(event)}
-            defaultValue=""
-          />
+          <InputDatePicker dateName="dateOfBirth" setDate={setNewEmployee} />
         </label>
 
         <label htmlFor="start-date">
           Start Date
-          <input
-            id="start-date"
-            type="text"
-            name="startDate"
-            onChange={(event) => handleChange(event)}
-            defaultValue=""
-          />
+          <InputDatePicker dateName="startDate" setDate={setNewEmployee} />
         </label>
 
         <fieldset className={style.address}>
@@ -119,7 +111,6 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
             />
           </label>
 
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="state">
             State
             <Select
@@ -144,7 +135,6 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
           </label>
         </fieldset>
 
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="department">
           Department
           <Select

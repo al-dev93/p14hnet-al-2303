@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import style from "./style.module.css";
 
 export function ascendingCompare(a, b) {
-  return a.localeCompare(b, "fr", { ignorePunctuation: true });
+  return a?.localeCompare(b, "fr", { ignorePunctuation: true });
 }
 
 function descendingCompare(a, b) {
-  return b.localeCompare(a, "fr", { ignorePunctuation: true });
+  return b?.localeCompare(a, "fr", { ignorePunctuation: true });
 }
 
 function changeSortDirection(current) {
