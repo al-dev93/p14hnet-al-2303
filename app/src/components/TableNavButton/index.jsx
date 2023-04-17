@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import style from "./style.module.css";
 
 const TableNavButton = ({ wording, pages, current, setCurrentPage }) => {
+  console.log(pages, current);
   const disable =
     (current === pages && wording === "Next") ||
-    (current === "1" && wording === "Previous");
+    (current === "1" && wording === "Previous") ||
+    pages === "0";
   const active = current === wording;
 
   function handleClick(event) {

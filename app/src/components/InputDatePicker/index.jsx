@@ -29,7 +29,11 @@ const InputDatePicker = ({ dateName, setDate }) => {
     setStartDate(changeDate);
     setDate((employeeState) => ({
       ...employeeState,
-      [dateName]: changeDate.toLocaleDateString("en-US"),
+      [dateName]: changeDate.toLocaleDateString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+      }),
     }));
     if (!date) ref.current.setOpen(false);
   }

@@ -5,10 +5,14 @@ import Select from "react-select";
 import { departmentOption, stateOption } from "../../utils/selectOptions";
 import InputDatePicker from "../InputDatePicker";
 import ModalNewEmployee from "../ModalNewEmployee";
+import columnsTitle from "../../utils/columnsTitle";
 import style from "./style.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
+  const columnRequired = columnsTitle.filter((value) =>
+    value.isRequired ? value.data : null
+  );
   const [newEmployee, setNewEmployee] = useState({
     state: stateOption[0].value,
     department: departmentOption[4].value,
@@ -42,8 +46,10 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    setEmployees([...employees, newEmployee]);
-    setAddEmployee(!addEmployee);
+    if (columnRequired.every((value) => !!newEmployee[value.data])) {
+      setEmployees([...employees, newEmployee]);
+      setAddEmployee(!addEmployee);
+    }
     event.target.reset();
   }
 

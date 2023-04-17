@@ -1,18 +1,53 @@
 import PropTypes from "prop-types";
 import style from "./style.module.css";
 
+function digitizeDate(stringDate) {
+  const stringToArray = stringDate.split("/");
+  return stringToArray[2] + stringToArray[0] + stringToArray[1];
+}
+
 export function ascendingCompare(a, b) {
-  return a?.localeCompare(b, "fr", { ignorePunctuation: true });
+  return (a ?? "").localeCompare(b ?? "", "fr", { ignorePunctuation: true });
 }
 
-function descendingCompare(a, b) {
-  return b?.localeCompare(a, "fr", { ignorePunctuation: true });
+export function descendingCompare(a, b) {
+  return (b ?? "").localeCompare(a ?? "", "fr", { ignorePunctuation: true });
 }
 
-function changeSortDirection(current) {
+export function ascendingCompareDate(a, b) {
+  // return (a ? digitizeDate(a) : "").localeCompare(
+  //   b ? digitizeDate(b) : "",
+  //   "fr",
+  //   {
+  //     ignorePunctuation: true,
+  //   }
+  // );
+  return (a ? digitizeDate(a) : "") - (b ? digitizeDate(b) : "");
+}
+
+export function descendingCompareDate(a, b) {
+  // return (b ? digitizeDate(b) : "").localeCompare(
+  //   a ? digitizeDate(a) : "",
+  //   "fr",
+  //   {
+  //     ignorePunctuation: true,
+  //   }
+  // );
+  return (b ? digitizeDate(b) : "") - (a ? digitizeDate(a) : "");
+}
+
+function changeSortDirection(current, type) {
   return current.sort === "sorting-asc"
-    ? { ...current, sort: "sorting-desc", compare: descendingCompare }
-    : { ...current, sort: "sorting-asc", compare: ascendingCompare };
+    ? {
+        ...current,
+        sort: "sorting-desc",
+        compare: type === "date" ? descendingCompareDate : descendingCompare,
+      }
+    : {
+        ...current,
+        sort: "sorting-asc",
+        compare: type === "date" ? ascendingCompareDate : ascendingCompare,
+      };
 }
 
 const ColumnDataTable = ({ data, column, odd, sorting, setSorting }) => {
@@ -34,7 +69,7 @@ const ColumnDataTable = ({ data, column, odd, sorting, setSorting }) => {
     const newSortingClick = {
       column: event.target.headers,
       sort: "sorting-asc",
-      compare: ascendingCompare,
+      compare: column.type === "date" ? ascendingCompareDate : ascendingCompare,
     };
     const index = sorting.findIndex(
       (sortItem) => sortItem.column === event.target.headers
@@ -43,14 +78,20 @@ const ColumnDataTable = ({ data, column, odd, sorting, setSorting }) => {
     if (event.shiftKey) {
       if (index > -1) {
         if (copySorting[index].sort !== "sorting-desc")
-          copySorting[index] = changeSortDirection(copySorting[index]);
+          copySorting[index] = changeSortDirection(
+            copySorting[index],
+            column.type ?? undefined
+          );
         else if (copySorting.length > 1) copySorting.splice(index, 1);
       } else copySorting.push(newSortingClick);
 
       setSorting([...copySorting]);
       return;
     }
-    if (index > -1) setSorting([changeSortDirection(sorting[index])]);
+    if (index > -1)
+      setSorting([
+        changeSortDirection(sorting[index], column.type ?? undefined),
+      ]);
     else setSorting([newSortingClick]);
   }
 

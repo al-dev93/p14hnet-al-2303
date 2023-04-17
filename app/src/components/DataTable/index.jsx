@@ -7,21 +7,28 @@ import InputTableFilter from "../InputTableFilter";
 import RowDataTable from "../RowDataTable";
 import TableInfo from "../TableInfo";
 import TableNavBar from "../TableNavBar";
-import { ascendingCompare } from "../ColumnDataTable/index";
+import {
+  ascendingCompare,
+  ascendingCompareDate,
+} from "../ColumnDataTable/index";
 
 const DataTable = ({ dataTable, columnsTitle }) => {
+  const initialSortColumn = 0;
   const [lengthTable, setLengthTable] = useState({
     rows: 10,
     pages: Math.ceil(dataTable.length / 10),
     lengthTableOrdered: dataTable.length,
   });
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(dataTable.length ? 1 : 0);
   const [filter, setFilter] = useState("");
   const [sorting, setSorting] = useState([
     {
-      column: "firstName",
+      column: columnsTitle[initialSortColumn].data,
       sort: "sorting-asc",
-      compare: ascendingCompare,
+      compare:
+        columnsTitle[initialSortColumn].type === "date"
+          ? ascendingCompareDate
+          : ascendingCompare,
     },
   ]);
 
@@ -62,7 +69,13 @@ const DataTable = ({ dataTable, columnsTitle }) => {
         setCurrentPage={setCurrentPage}
         setLengthTable={setLengthTable}
       />
+
       <InputTableFilter setCurrentPage={setCurrentPage} setFilter={setFilter} />
+
+      {!dataTable.length && (
+        <p className="empty-table">No data available in table</p>
+      )}
+
       <table id="id-data-table" role="grid" className="data-table">
         <thead>
           <RowDataTable
@@ -72,22 +85,25 @@ const DataTable = ({ dataTable, columnsTitle }) => {
           />
         </thead>
         <tbody>
-          {orderTable().map((row, index) => (
-            <RowDataTable
-              key={`row_${index + 1}`}
-              row={row}
-              rowId={index + 1}
-              columnsTitle={columnsTitle}
-              sorting={sorting}
-            />
-          ))}
+          {(!!dataTable.length &&
+            orderTable().map((row, index) => (
+              <RowDataTable
+                key={`row_${index + 1}`}
+                row={row}
+                rowId={index + 1}
+                columnsTitle={columnsTitle}
+                sorting={sorting}
+              />
+            ))) || <tr className="empty-data-table" />}
         </tbody>
       </table>
+
       <TableInfo
         dataTableLength={dataTable.length}
         lengthTable={lengthTable}
         currentPage={currentPage}
       />
+
       <TableNavBar
         pages={`${lengthTable.pages}`}
         current={`${currentPage}`}
