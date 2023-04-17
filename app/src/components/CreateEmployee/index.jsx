@@ -4,6 +4,7 @@ import { useState } from "react";
 import Select from "react-select";
 import { departmentOption, stateOption } from "../../utils/selectOptions";
 import InputDatePicker from "../InputDatePicker";
+import ModalNewEmployee from "../ModalNewEmployee";
 import style from "./style.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -12,6 +13,7 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
     state: stateOption[0].value,
     department: departmentOption[4].value,
   });
+  const [addEmployee, setAddEmployee] = useState(false);
   const selectStyle = {
     control: (base) => ({
       ...base,
@@ -41,118 +43,122 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
   function handleSubmit(event) {
     event.preventDefault();
     setEmployees([...employees, newEmployee]);
+    setAddEmployee(!addEmployee);
     event.target.reset();
   }
 
   return (
-    <div className="container">
-      <button
-        type="button"
-        onClick={() => setOnCreatePage((currentView) => !currentView)}
-      >
-        View Current Employee
-      </button>
-      <h2>Create Employee</h2>
-      <form id="create-employee" onSubmit={(event) => handleSubmit(event)}>
-        <label htmlFor="first-name">
-          First Name
-          <input
-            type="text"
-            id="first-name"
-            name="firstName"
-            onChange={(event) => handleChange(event)}
-            defaultValue=""
-          />
-        </label>
-
-        <label htmlFor="last-name">
-          Last Name
-          <input
-            type="text"
-            id="last-name"
-            name="lastName"
-            onChange={(event) => handleChange(event)}
-            defaultValue=""
-          />
-        </label>
-
-        <label htmlFor="date-of-birth">
-          Date of Birth
-          <InputDatePicker dateName="dateOfBirth" setDate={setNewEmployee} />
-        </label>
-
-        <label htmlFor="start-date">
-          Start Date
-          <InputDatePicker dateName="startDate" setDate={setNewEmployee} />
-        </label>
-
-        <fieldset className={style.address}>
-          <legend>Address</legend>
-
-          <label htmlFor="street">
-            Street
+    <>
+      <div className="container">
+        <button
+          type="button"
+          onClick={() => setOnCreatePage((currentView) => !currentView)}
+        >
+          View Current Employee
+        </button>
+        <h2>Create Employee</h2>
+        <form id="create-employee" onSubmit={(event) => handleSubmit(event)}>
+          <label htmlFor="first-name">
+            First Name
             <input
-              id="street"
               type="text"
-              name="street"
+              id="first-name"
+              name="firstName"
               onChange={(event) => handleChange(event)}
               defaultValue=""
             />
           </label>
 
-          <label htmlFor="city">
-            City
+          <label htmlFor="last-name">
+            Last Name
             <input
-              id="city"
               type="text"
-              name="city"
+              id="last-name"
+              name="lastName"
               onChange={(event) => handleChange(event)}
               defaultValue=""
             />
           </label>
 
-          <label htmlFor="state">
-            State
+          <label htmlFor="date-of-birth">
+            Date of Birth
+            <InputDatePicker dateName="dateOfBirth" setDate={setNewEmployee} />
+          </label>
+
+          <label htmlFor="start-date">
+            Start Date
+            <InputDatePicker dateName="startDate" setDate={setNewEmployee} />
+          </label>
+
+          <fieldset className={style.address}>
+            <legend>Address</legend>
+
+            <label htmlFor="street">
+              Street
+              <input
+                id="street"
+                type="text"
+                name="street"
+                onChange={(event) => handleChange(event)}
+                defaultValue=""
+              />
+            </label>
+
+            <label htmlFor="city">
+              City
+              <input
+                id="city"
+                type="text"
+                name="city"
+                onChange={(event) => handleChange(event)}
+                defaultValue=""
+              />
+            </label>
+
+            <label htmlFor="state">
+              State
+              <Select
+                inputId="state"
+                name="state"
+                onChange={(newValue) => handleChange(newValue, "state")}
+                styles={selectStyle}
+                openMenuOnFocus
+                defaultValue={stateOption[0]}
+                options={stateOption}
+              />
+            </label>
+
+            <label htmlFor="zip-code">
+              Zip Code
+              <input
+                id="zip-code"
+                type="number"
+                name="zipCode"
+                onChange={(event) => handleChange(event)}
+              />
+            </label>
+          </fieldset>
+
+          <label htmlFor="department">
+            Department
             <Select
-              inputId="state"
-              name="state"
-              onChange={(newValue) => handleChange(newValue, "state")}
+              inputId="department"
+              name="department"
+              onChange={(newValue) => handleChange(newValue, "department")}
               styles={selectStyle}
               openMenuOnFocus
-              defaultValue={stateOption[0]}
-              options={stateOption}
+              defaultValue={departmentOption[4]}
+              options={departmentOption}
             />
           </label>
+        </form>
 
-          <label htmlFor="zip-code">
-            Zip Code
-            <input
-              id="zip-code"
-              type="number"
-              name="zipCode"
-              onChange={(event) => handleChange(event)}
-            />
-          </label>
-        </fieldset>
-
-        <label htmlFor="department">
-          Department
-          <Select
-            inputId="department"
-            name="department"
-            onChange={(newValue) => handleChange(newValue, "department")}
-            styles={selectStyle}
-            openMenuOnFocus
-            defaultValue={departmentOption[4]}
-            options={departmentOption}
-          />
-        </label>
-      </form>
-
-      <button type="submit" form="create-employee">
-        Save
-      </button>
-    </div>
+        <button type="submit" form="create-employee">
+          Save
+        </button>
+      </div>
+      {addEmployee && <ModalNewEmployee setAddEmployee={setAddEmployee} />}
+    </>
   );
 };
 
