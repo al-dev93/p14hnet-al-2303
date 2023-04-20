@@ -1,5 +1,9 @@
 export const departmentOption = [
   {
+    label: "Sales",
+    value: "Sales",
+  },
+  {
     label: "Engineering",
     value: "Engineering",
   },
@@ -14,10 +18,6 @@ export const departmentOption = [
   {
     label: "Marketing",
     value: "Marketing",
-  },
-  {
-    label: "Sales",
-    value: "Sales",
   },
 ];
 

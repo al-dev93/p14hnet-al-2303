@@ -15,24 +15,10 @@ export function descendingCompare(a, b) {
 }
 
 export function ascendingCompareDate(a, b) {
-  // return (a ? digitizeDate(a) : "").localeCompare(
-  //   b ? digitizeDate(b) : "",
-  //   "fr",
-  //   {
-  //     ignorePunctuation: true,
-  //   }
-  // );
   return (a ? digitizeDate(a) : "") - (b ? digitizeDate(b) : "");
 }
 
 export function descendingCompareDate(a, b) {
-  // return (b ? digitizeDate(b) : "").localeCompare(
-  //   a ? digitizeDate(a) : "",
-  //   "fr",
-  //   {
-  //     ignorePunctuation: true,
-  //   }
-  // );
   return (b ? digitizeDate(b) : "") - (a ? digitizeDate(a) : "");
 }
 

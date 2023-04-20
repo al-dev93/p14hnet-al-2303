@@ -1,0 +1,38 @@
+form {
+  width: 15.3152%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.department {
+  width: 88.4774%;
+}
+
+/* form > .department {
+  order: 5;
+} */
+
+input {
+  box-sizing: border-box;
+  width: 69.277%;
+  margin-top: 10px;
+}
+
+.state {
+  width: 99.3837%;
+}
+
+fieldset {
+  margin-top: 10px;
+}
+
+.address label > input {
+  width: 77.818%;
+}
