@@ -5,10 +5,12 @@ import getId from "../../utils/getId";
 import isObject from "../../utils/isObject";
 import style from "./style.module.css";
 
-const SelectEmployeeData = ({ data, options, setSelect, valid }) => {
-  const id = getId(data.title);
-  const [inputValue, setInputValue] = useState(options[0]);
-  const selectStyle = {
+const SelectEmployeeData = ({ data, options, setNewEmployee, validInput }) => {
+  const inputId = getId(data.title);
+  const defaultValue = options[0];
+  const { name } = data;
+  const [inputValue, setInputValue] = useState(defaultValue);
+  const styles = {
     control: (base) => ({
       ...base,
       ":hover": { backgroundColor: "#ededed" },
@@ -22,37 +24,31 @@ const SelectEmployeeData = ({ data, options, setSelect, valid }) => {
   };
 
   useEffect(() => {
-    if (!isObject(valid) && valid) setInputValue(options[0]);
-    setSelect((state) => ({
+    if (!isObject(validInput) && validInput) setInputValue(defaultValue);
+    setNewEmployee((state) => ({
       ...state,
       [data.data]: inputValue.label,
     }));
-  }, [valid]);
+  }, [validInput]);
 
   function handleChange(select) {
     setInputValue(select);
-    setSelect((state) => ({
+    setNewEmployee((state) => ({
       ...state,
       [data.data]: select.value,
     }));
   }
 
   return (
-    <div className={style.wrapper}>
-      <label className={style.label} htmlFor={id}>
-        {data.title}
-        <Select
-          inputId={id}
-          name={data.data}
-          onChange={(select) => handleChange(select)}
-          styles={selectStyle}
-          openMenuOnFocus
-          defaultValue={options[0]}
-          value={inputValue}
-          controlShouldRenderValue
-          options={options}
-        />
-      </label>
+    <div className={`${style.wrapper} ${inputId}`}>
+      <label htmlFor={inputId}>{data.title}</label>
+      <Select
+        {...{ inputId, name, styles, defaultValue, options }}
+        value={inputValue}
+        onChange={(select) => handleChange(select)}
+        openMenuOnFocus
+        controlShouldRenderValue
+      />
     </div>
   );
 };
@@ -62,13 +58,13 @@ export default SelectEmployeeData;
 SelectEmployeeData.propTypes = {
   data: PropTypes.objectOf(PropTypes.string).isRequired,
   options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-  setSelect: PropTypes.func.isRequired,
-  valid: PropTypes.oneOfType([
+  setNewEmployee: PropTypes.func.isRequired,
+  validInput: PropTypes.oneOfType([
     PropTypes.objectOf(PropTypes.string),
     PropTypes.bool,
   ]),
 };
 
 SelectEmployeeData.defaultProps = {
-  valid: undefined,
+  validInput: undefined,
 };

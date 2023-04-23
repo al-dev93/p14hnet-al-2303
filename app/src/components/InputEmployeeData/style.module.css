@@ -1,18 +1,16 @@
 /* stylelint-disable a11y/media-prefers-color-scheme */
 .wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-label,
-.wrapper input {
-  cursor: pointer;
-}
-
-.wrapper .input {
+/* .wrapper .input {
   box-sizing: border-box;
   width: 69.277%;
   margin-top: 10px;
-}
+  cursor: pointer;
+} */
 
 /* stylelint-disable-next-line a11y/font-size-is-readable */
 .invalid-input {

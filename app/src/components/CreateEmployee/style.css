@@ -6,23 +6,21 @@ form {
 }
 
 label {
-  display: flex;
-  flex-direction: column;
+  width: max-content;
   margin-top: 1rem;
+  padding-right: 2rem;
+  cursor: pointer;
 }
 
 .department {
   width: 88.4774%;
 }
 
-/* form > .department {
-  order: 5;
-} */
-
 input {
   box-sizing: border-box;
   width: 69.277%;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .state {
@@ -33,6 +31,6 @@ fieldset {
   margin-top: 10px;
 }
 
-.address label > input {
+fieldset input {
   width: 77.818%;
 }

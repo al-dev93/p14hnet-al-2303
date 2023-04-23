@@ -70,7 +70,7 @@ const DataTable = ({ dataTable, columnsTitle }) => {
         setLengthTable={setLengthTable}
       />
 
-      <InputTableFilter setCurrentPage={setCurrentPage} setFilter={setFilter} />
+      <InputTableFilter {...{ setCurrentPage, setFilter }} />
 
       {!dataTable.length && (
         <p className="empty-table">No data available in table</p>
@@ -78,11 +78,7 @@ const DataTable = ({ dataTable, columnsTitle }) => {
 
       <table id="id-data-table" role="grid" className="data-table">
         <thead>
-          <RowDataTable
-            columnsTitle={columnsTitle}
-            sorting={sorting}
-            setSorting={setSorting}
-          />
+          <RowDataTable {...{ columnsTitle, sorting, setSorting }} />
         </thead>
         <tbody>
           {(!!dataTable.length &&

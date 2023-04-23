@@ -1,19 +1,19 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from "prop-types";
 import { useState } from "react";
 import InputEmployeeData from "../InputEmployeeData";
 import InputDatePicker from "../InputDatePicker";
 import SelectEmployeeData from "../SelectEmployeeData";
 import ModalNewEmployee from "../ModalNewEmployee";
+import employeeData from "../../utils/employeeData";
 import { departmentOption, stateOption } from "../../utils/selectOptions";
-import columnsTitle from "../../utils/columnsTitle";
 import "./style.css";
 
 const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
-  const mainForm = [...columnsTitle];
-  const adressForm = mainForm.splice(5);
   const [newEmployee, setNewEmployee] = useState();
   const [addEmployee, setAddEmployee] = useState(false);
   const [validInput, setValidInput] = useState();
+  const numberOfAddressInfo = 4;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -29,11 +29,35 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
       );
       return;
     }
-
     setEmployees([...employees, newEmployee]);
     setValidInput(true);
     setAddEmployee(!addEmployee);
     event.currentTarget.reset();
+  }
+
+  function renderFormComponent(data) {
+    const { type } = data;
+    const options = data.data === "department" ? departmentOption : stateOption;
+    return (
+      ((type === "text" || type === "number") && (
+        <InputEmployeeData
+          key={data.data}
+          {...{ data, type, setNewEmployee, validInput }}
+        />
+      )) ||
+      (type === "date" && (
+        <InputDatePicker
+          key={data.data}
+          {...{ data, setNewEmployee, validInput }}
+        />
+      )) ||
+      (type === "list" && (
+        <SelectEmployeeData
+          key={data.data}
+          {...{ data, options, setNewEmployee, validInput }}
+        />
+      ))
+    );
   }
 
   return (
@@ -51,77 +75,16 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
           noValidate
           onSubmit={(event) => handleSubmit(event)}
         >
-          {mainForm.map((item, index) => {
-            switch (index) {
-              case 0:
-              case 1:
-                return (
-                  <InputEmployeeData
-                    key={`${item.data}-${index + 1}`}
-                    data={item}
-                    type="text"
-                    setInput={setNewEmployee}
-                    valid={validInput}
-                  />
-                );
-              case 2:
-              case 3:
-                return (
-                  <InputDatePicker
-                    key={`${item.data}-${index + 1}`}
-                    data={item}
-                    setDate={setNewEmployee}
-                    valid={validInput}
-                  />
-                );
-              case 4:
-                return (
-                  <SelectEmployeeData
-                    key={`${item.data}-${index + 1}`}
-                    data={item}
-                    options={departmentOption}
-                    setSelect={setNewEmployee}
-                    valid={validInput}
-                  />
-                );
-              default:
-            }
-            return null;
-          })}
-
-          <div className="address">
-            <fieldset>
-              <legend>Address</legend>
-              {adressForm.map((item, index) => {
-                switch (index) {
-                  case 0:
-                  case 1:
-                  case 3:
-                    return (
-                      <InputEmployeeData
-                        key={`${item.data}-${index + 1}`}
-                        data={item}
-                        type={index === 3 ? "number" : "text"}
-                        setInput={setNewEmployee}
-                        valid={validInput}
-                      />
-                    );
-                  case 2:
-                    return (
-                      <SelectEmployeeData
-                        key={`${item.data}-${index + 1}`}
-                        data={item}
-                        options={stateOption}
-                        setSelect={setNewEmployee}
-                        valid={validInput}
-                      />
-                    );
-                  default:
-                }
-                return null;
-              })}
-            </fieldset>
-          </div>
+          {employeeData
+            .slice(0, numberOfAddressInfo)
+            .map((data) => renderFormComponent(data))}
+          <fieldset key="form-employee">
+            <legend key="subForm-address">Address</legend>
+            {employeeData
+              .slice(numberOfAddressInfo, -1)
+              .map((data) => renderFormComponent(data))}
+          </fieldset>
+          {renderFormComponent(employeeData[employeeData.length - 1])}
         </form>
 
         <button type="submit" form="create-employee">
@@ -129,7 +92,7 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
         </button>
       </div>
 
-      {addEmployee && <ModalNewEmployee setAddEmployee={setAddEmployee} />}
+      {addEmployee && <ModalNewEmployee {...{ setAddEmployee }} />}
     </>
   );
 };

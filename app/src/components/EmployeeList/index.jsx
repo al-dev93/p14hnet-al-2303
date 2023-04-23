@@ -1,14 +1,19 @@
 import PropTypes from "prop-types";
 import style from "./style.module.css";
 import DataTable from "../DataTable";
-import columnsTitle from "../../utils/columnsTitle";
+import columns, { orderTable } from "../../utils/employeeData";
 
 const EmployeeList = ({ employees, setOnCreatePage }) => {
-  console.log(employees);
+  const dataTable = [...employees];
+  const columnsTitle = [];
+  orderTable.forEach((value) =>
+    columnsTitle.push(columns.find((item) => item.data === value))
+  );
+
   return (
     <div className="container">
       <h2>Current Employees</h2>
-      <DataTable dataTable={employees} columnsTitle={columnsTitle} />
+      <DataTable {...{ dataTable, columnsTitle }} />
       <button
         className={style["nav-button"]}
         type="button"

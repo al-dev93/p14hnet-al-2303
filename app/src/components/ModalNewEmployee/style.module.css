@@ -40,14 +40,13 @@
   top: -12.5px;
   right: -12.5px;
   display: block;
+  min-width: max-content;
   width: 30px;
   height: 30px;
-  text-indent: -9999px;
+  padding: 0;
   border: none;
-  background-color: transparent;
+  border-radius: 0;
+  background: url("../../assets/close.png") transparent center center no-repeat;
   background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url("../../assets/close.png");
   cursor: pointer;
 }

@@ -1,10 +1,8 @@
+/* stylelint-disable a11y/media-prefers-color-scheme */
 .wrapper {
   position: relative;
-}
-
-label,
-.wrapper input {
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .header-date-picker {
@@ -13,12 +11,26 @@ label,
   justify-content: "center";
 }
 
+.header-date-picker > button {
+  min-width: max-content;
+  width: auto;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: #ededed;
+  cursor: pointer;
+}
+
+.header-date-picker > button:hover,
+.header-date-picker > button:focus {
+  background-color: #f6f6f6;
+}
+
 .header-date-picker .home-button {
   margin: 0 0.7em;
 }
 
 .header-date-picker select:first-of-type {
-  margin-right: 0.5em;
+  margin-right: 0.2em;
 }
 
 .header-date-picker select:last-of-type {

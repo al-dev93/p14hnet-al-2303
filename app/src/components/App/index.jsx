@@ -14,15 +14,13 @@ const App = () => {
         <h1>HRnet</h1>
       </div>
       {(onCreatePage && (
-        <CreateEmployee
-          employees={employees}
-          setEmployees={setEmployees}
-          setOnCreatePage={setOnCreatePage}
-        />
+        <CreateEmployee {...{ employees, setEmployees, setOnCreatePage }} />
       )) || (
         <EmployeeList
-          employees={REACT_APP_ENV === "DEV" ? mockData : employees}
-          setOnCreatePage={setOnCreatePage}
+          employees={
+            REACT_APP_ENV === "DEV" ? [...mockData, ...employees] : employees
+          }
+          {...{ setOnCreatePage }}
         />
       )}
     </>
