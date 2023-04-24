@@ -1,6 +1,13 @@
 import PropTypes from "prop-types";
 import style from "./style.module.css";
 
+/**
+ * @description react component used for displaying information about the data table
+ * @param {number} dataTableLength
+ * @param {object} lengthTable
+ * @param {number} currentPage
+ * @returns render component
+ */
 const TableInfo = ({ dataTableLength, lengthTable, currentPage }) => {
   const startOfCurrentPage = lengthTable.lengthTableOrdered
     ? lengthTable.rows * (currentPage - 1) + 1

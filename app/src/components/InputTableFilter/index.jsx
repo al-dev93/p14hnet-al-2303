@@ -1,6 +1,12 @@
 import PropTypes from "prop-types";
 import style from "./style.module.css";
 
+/**
+ * @description react component used to enter table filter phrase
+ * @param {function} setCurrentPage
+ * @param {function} setFilter
+ * @returns render component input
+ */
 const InputTableFilter = ({ setCurrentPage, setFilter }) => {
   function handleChange(event) {
     setCurrentPage(1);

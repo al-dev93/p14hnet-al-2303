@@ -13,7 +13,7 @@ const employeeData = [
   },
   { title: "Date of Birth", data: "dateOfBirth", type: "date" },
   { title: "Start Date", data: "startDate", type: "date" },
-  { title: "Street", data: "street", type: "text" },
+  { title: "Street", data: "street", type: "alphanumeric" },
   { title: "City", data: "city", type: "text" },
   { title: "State", data: "state", type: "list" },
   { title: "Zip Code", data: "zipCode", type: "number" },

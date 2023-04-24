@@ -7,31 +7,42 @@ import InputTableFilter from "../InputTableFilter";
 import RowDataTable from "../RowDataTable";
 import TableInfo from "../TableInfo";
 import TableNavBar from "../TableNavBar";
-import {
-  ascendingCompare,
-  ascendingCompareDate,
-} from "../ColumnDataTable/index";
+import { ascendingCompare, numericTypeSort } from "../ColumnDataTable/index";
 
+/**
+ * @description react component for creating data table including processing tools
+ * @param {array of object} dataTable
+ * @param {array of object} columnsTitle
+ * @returns render component DataTable
+ */
 const DataTable = ({ dataTable, columnsTitle }) => {
   const initialSortColumn = 0;
+  const initialRowPerPage = 10;
+  const dataTableLength = +dataTable.length;
   const [lengthTable, setLengthTable] = useState({
-    rows: 10,
-    pages: Math.ceil(dataTable.length / 10),
-    lengthTableOrdered: dataTable.length,
+    rows: initialRowPerPage,
+    pages: Math.ceil(dataTableLength / initialRowPerPage),
+    lengthTableOrdered: dataTableLength,
   });
-  const [currentPage, setCurrentPage] = useState(dataTable.length ? 1 : 0);
+  const [currentPage, setCurrentPage] = useState(dataTableLength ? 1 : 0);
   const [filter, setFilter] = useState("");
   const [sorting, setSorting] = useState([
     {
       column: columnsTitle[initialSortColumn].data,
       sort: "sorting-asc",
       compare:
-        columnsTitle[initialSortColumn].type === "date"
-          ? ascendingCompareDate
+        columnsTitle[initialSortColumn].type === "date" ||
+        columnsTitle[initialSortColumn].type === "number" ||
+        columnsTitle[initialSortColumn].type === "alphanumeric"
+          ? numericTypeSort(columnsTitle[initialSortColumn].type, "sorting-asc")
           : ascendingCompare,
     },
   ]);
-
+  /**
+   * @param {string} a
+   * @param {string} b
+   * @returns compiling the result of comparison functions (logical or)
+   */
   function compareValue(a, b) {
     return sorting.reduce(
       (accCompare, sortingValue) =>
@@ -40,10 +51,13 @@ const DataTable = ({ dataTable, columnsTitle }) => {
       sorting[0].compare(a[sorting[0].column], b[sorting[0].column])
     );
   }
-
+  /**
+   * @description filter, sort or paginate the data table
+   * @returns copy of dataTable
+   */
   function orderTable() {
     let copyTable = [...dataTable];
-    lengthTable.lengthTableOrdered = dataTable.length;
+    lengthTable.lengthTableOrdered = dataTableLength;
     if (filter) {
       copyTable = dataTable.filter(
         (row) =>
@@ -66,13 +80,12 @@ const DataTable = ({ dataTable, columnsTitle }) => {
     <div className="data-table-container">
       <SelectTableLength
         length={lengthTable.lengthTableOrdered}
-        setCurrentPage={setCurrentPage}
-        setLengthTable={setLengthTable}
+        {...{ setCurrentPage, setLengthTable }}
       />
 
       <InputTableFilter {...{ setCurrentPage, setFilter }} />
 
-      {!dataTable.length && (
+      {!dataTableLength && (
         <p className="empty-table">No data available in table</p>
       )}
 
@@ -81,24 +94,20 @@ const DataTable = ({ dataTable, columnsTitle }) => {
           <RowDataTable {...{ columnsTitle, sorting, setSorting }} />
         </thead>
         <tbody>
-          {(!!dataTable.length &&
-            orderTable().map((row, index) => (
-              <RowDataTable
-                key={`row_${index + 1}`}
-                row={row}
-                rowId={index + 1}
-                columnsTitle={columnsTitle}
-                sorting={sorting}
-              />
-            ))) || <tr className="empty-data-table" />}
+          {(!!dataTableLength &&
+            orderTable().map((row, index) => {
+              const rowId = index + 1;
+              return (
+                <RowDataTable
+                  key={`row_${index + 1}`}
+                  {...{ row, rowId, columnsTitle, sorting }}
+                />
+              );
+            })) || <tr className="empty-data-table" />}
         </tbody>
       </table>
 
-      <TableInfo
-        dataTableLength={dataTable.length}
-        lengthTable={lengthTable}
-        currentPage={currentPage}
-      />
+      <TableInfo {...{ dataTableLength, lengthTable, currentPage }} />
 
       <TableNavBar
         pages={`${lengthTable.pages}`}

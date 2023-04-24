@@ -1,6 +1,13 @@
 import PropTypes from "prop-types";
 import style from "./style.module.css";
 
+/**
+ * @description react component used to enter the number of lines displayed
+ * @param {number} length
+ * @param {function} setCurrentPage
+ * @param {function} setLengthTable
+ * @returns render component
+ */
 const SelectTableLength = ({ length, setCurrentPage, setLengthTable }) => {
   const lengthOptions = ["10", "25", "50", "100"];
 
@@ -39,7 +46,11 @@ const SelectTableLength = ({ length, setCurrentPage, setLengthTable }) => {
 export default SelectTableLength;
 
 SelectTableLength.propTypes = {
-  length: PropTypes.number.isRequired,
+  length: PropTypes.number,
   setCurrentPage: PropTypes.func.isRequired,
   setLengthTable: PropTypes.func.isRequired,
+};
+
+SelectTableLength.defaultProps = {
+  length: undefined,
 };

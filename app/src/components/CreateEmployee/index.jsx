@@ -36,10 +36,10 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
   }
 
   function renderFormComponent(data) {
-    const { type } = data;
+    const type = data.type === "alphanumeric" ? "text" : data.type;
     const options = data.data === "department" ? departmentOption : stateOption;
     return (
-      ((type === "text" || type === "number") && (
+      ((type === "text" || type === "number" || type === "alphnumeric") && (
         <InputEmployeeData
           key={data.data}
           {...{ data, type, setNewEmployee, validInput }}
