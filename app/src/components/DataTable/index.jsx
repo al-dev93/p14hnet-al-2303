@@ -16,7 +16,8 @@ import { ascendingCompare, numericTypeSort } from "../ColumnDataTable/index";
  * @returns render component DataTable
  */
 const DataTable = ({ dataTable, columnsTitle }) => {
-  const initialSortColumn = 0;
+  const isRequired = columnsTitle.findIndex((value) => !!value.isRequired);
+  const initialSortColumn = isRequired < 0 ? 0 : isRequired;
   const initialRowPerPage = 10;
   const dataTableLength = +dataTable.length;
   const [lengthTable, setLengthTable] = useState({

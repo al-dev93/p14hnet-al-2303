@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
+import { DataTable } from "react-data-table-plugin";
 import style from "./style.module.css";
-import DataTable from "../DataTable";
+// import DataTable from "../DataTable";
 import columns, { orderTable } from "../../utils/employeeData";
 
 const EmployeeList = ({ employees, setOnCreatePage }) => {
