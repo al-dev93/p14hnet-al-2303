@@ -1,5 +1,5 @@
 /**
- * Environment variable used to launch the app
+ * Environment variable used to launch the app with mockData
  */
 const { REACT_APP_ENV } = process.env;
 

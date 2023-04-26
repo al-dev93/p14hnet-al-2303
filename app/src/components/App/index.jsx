@@ -5,6 +5,10 @@ import EmployeeList from "../EmployeeList";
 import mockData from "../../utils/mockData";
 import REACT_APP_ENV from "../../utils/processEnvironment";
 
+/**
+ * @description displays CreateEmployee or EmployeeList depending on the onCreatePage state
+ * @returns render app
+ */
 const App = () => {
   const [onCreatePage, setOnCreatePage] = useState(true);
   const [employees, setEmployees] = useState([]);

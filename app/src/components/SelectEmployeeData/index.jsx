@@ -5,6 +5,14 @@ import getId from "../../utils/getId";
 import isObject from "../../utils/isObject";
 import style from "./style.module.css";
 
+/**
+ * @description displays the selected element with the list of options passed
+ * @param {object} data
+ * @param {array of object} options
+ * @param {function} setNewEmployee
+ * @param {object or boolean} validInput
+ * @returns render select input
+ */
 const SelectEmployeeData = ({ data, options, setNewEmployee, validInput }) => {
   const inputId = getId(data.title);
   const defaultValue = options[0];
@@ -22,7 +30,9 @@ const SelectEmployeeData = ({ data, options, setNewEmployee, validInput }) => {
       marginTop: 10,
     }),
   };
-
+  /**
+   * @description fills the select field with the default option after submitting the form
+   */
   useEffect(() => {
     if (!isObject(validInput) && validInput) setInputValue(defaultValue);
     setNewEmployee((state) => ({
@@ -30,7 +40,10 @@ const SelectEmployeeData = ({ data, options, setNewEmployee, validInput }) => {
       [data.data]: inputValue.label,
     }));
   }, [validInput]);
-
+  /**
+   * @description saves the selected option in the current record
+   * @param {object} select
+   */
   function handleChange(select) {
     setInputValue(select);
     setNewEmployee((state) => ({

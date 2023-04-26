@@ -1,3 +1,6 @@
+/**
+ * data used to fill select element in create employee form
+ */
 export const departmentOption = [
   {
     label: "Sales",

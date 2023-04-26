@@ -3,6 +3,12 @@ import { DataTable } from "react-data-table-plugin";
 import style from "./style.module.css";
 import columns, { orderTable } from "../../utils/employeeData";
 
+/**
+ * @description displays the list of employees created in the data table
+ * @param {array of object} employees
+ * @param {function} setOnCreatePage
+ * @returns render data table
+ */
 const EmployeeList = ({ employees, setOnCreatePage }) => {
   const dataTable = [...employees];
   const columnsTitle = [];

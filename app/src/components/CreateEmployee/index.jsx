@@ -9,12 +9,23 @@ import employeeData from "../../utils/employeeData";
 import { departmentOption, stateOption } from "../../utils/selectOptions";
 import "./style.css";
 
+/**
+ * @description component managing the new employee creation form
+ * @param {array of object} employees
+ * @param {function} setEmployees
+ * @param {function} setOnCreatePage
+ * @returns render page create employee
+ */
 const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
   const [newEmployee, setNewEmployee] = useState();
   const [addEmployee, setAddEmployee] = useState(false);
   const [validInput, setValidInput] = useState();
   const numberOfAddressInfo = 4;
-
+  /**
+   * @description handles form validation and submit
+   * @param {object} event
+   * @returns void
+   */
   function handleSubmit(event) {
     event.preventDefault();
     const validity = Array.from(event.target).filter(
@@ -34,7 +45,11 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
     setAddEmployee(!addEmployee);
     event.currentTarget.reset();
   }
-
+  /**
+   * @description returns an input component based on the passed type
+   * @param {object} data
+   * @returns component React, input element used in form
+   */
   function renderFormComponent(data) {
     const type = data.type === "alphanumeric" ? "text" : data.type;
     const options = data.data === "department" ? departmentOption : stateOption;
@@ -91,7 +106,7 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
           Save
         </button>
       </div>
-
+      {/* opens modal window about the création of a record if the form validated and submitted */}
       {addEmployee && <ModalNewEmployee {...{ setAddEmployee }} />}
     </>
   );

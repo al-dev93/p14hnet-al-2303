@@ -9,6 +9,13 @@ import isObject from "../../utils/isObject";
 import "react-datepicker/dist/react-datepicker.css";
 import style from "./style.module.css";
 
+/**
+ * @description opens date picker when the field date is selected
+ * @param {object} data
+ * @param {setNewEmployee} setNewEmployee
+ * @param {object or boolean} validInput
+ * @returns render date picker
+ */
 const InputDatePicker = ({ data, setNewEmployee, validInput }) => {
   const [startDate, setStartDate] = useState(null);
   const ref = useRef(null);
@@ -30,11 +37,16 @@ const InputDatePicker = ({ data, setNewEmployee, validInput }) => {
     "November",
     "December",
   ];
-
+  /**
+   * @description empty the date field after submitting the form
+   */
   useEffect(() => {
     if (!isObject(validInput) && validInput) setStartDate(null);
   }, [validInput]);
-
+  /**
+   * @description save the selected date in the current record
+   * @param {object} date
+   */
   function handleChange(date) {
     setStartDate(date);
     setNewEmployee((employeeState) => ({

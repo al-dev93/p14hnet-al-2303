@@ -1,3 +1,6 @@
+/**
+ * array passed to the component DatTable to format table columns
+ */
 const employeeData = [
   {
     title: "First Name",
@@ -19,7 +22,9 @@ const employeeData = [
   { title: "Zip Code", data: "zipCode", type: "number" },
   { title: "Department", data: "department", type: "list" },
 ];
-
+/**
+ * array used to order the columns of the table
+ */
 export const orderTable = [
   "firstName",
   "lastName",

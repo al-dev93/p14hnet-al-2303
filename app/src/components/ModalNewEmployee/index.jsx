@@ -1,6 +1,10 @@
 import PropTypes from "prop-types";
 import style from "./style.module.css";
 
+/**
+ * @param {function} setAddEmployee
+ * @returns render modal window
+ */
 const ModalNewEmployee = ({ setAddEmployee }) => (
   <div className={style.wrapper}>
     <div className={style.modal}>
