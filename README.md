@@ -2,16 +2,33 @@
 
 ## Context of the project
 
-This project aims to avolove the HRnet application application using jQuery to use React.
+This project aims to develop the HRnet application by using javascript React library instead jQuery.
 
-### 1. About this repository
+## 1. About this repository
 
-It includes the necessary for:
+3 node modules are used for this development:
 
-- install the micro API in the subtree [api](https://github.com/al-dev93/p13agba-al-2302/tree/main/api)
-- install the graphical application in the subtree [app](https://github.com/al-dev93/p13agba-al-2302/tree/main/app)
+- [react-select](https://www.npmjs.com/package/react-select)
+- [react-datepicker](https://www.npmjs.com/package/react-datepicker)
+- [react-data-table-plugin](https://www.npmjs.com/package/react-data-table-plugin)
 
-### 2. Start the project
+the react-data-table-plugin module was specifically developed for this project. The other two modules were created by the developer community posting to npm.
 
-- for the back-end, please consult the file [README.md for back-end](https://github.com/al-dev93/p13agba-al-2302/blob/develop/api/README.md) before starting
-- for the front-end, you need to check the file [README.md for front-end](https://github.com/al-dev93/p13agba-al-2302/blob/develop/app/README.md)
+## 2. Installation
+
+Once the repository is cloned on your computer, go to your terminal in the folder /app and use the `npm install` command to install the project dependencies.
+
+## 3. Run project
+
+### 3.1 With an empty database
+
+- Use the command `npm start`
+- The browser opens to the homepage, otherwise enter `http://localhost:3000` in the adress bar of the browser
+- The homepage is loaded. You can complete the form to create a record and save it or go to the data table using the button `view current employee`
+
+### 3.2 With a pre-filled database
+
+- Use the command `npm run dev`
+- The browser opens to the homepage, otherwise enter `http://localhost:3000` in the adress bar of the browser
+- The homepage is loaded. You can go to the data table using the button `view current employee`to see the mocked data.
+- You can add data to the mocked data by going to the form on the home page
