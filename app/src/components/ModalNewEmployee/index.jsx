@@ -7,7 +7,8 @@ import style from "./style.module.css";
  */
 const ModalNewEmployee = ({ setAddEmployee }) => (
   <div className={style.wrapper}>
-    <div className={style.modal}>
+    {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+    <div className={style.modal} tabIndex="0" role="document">
       <span id="employee-created" className="sr-only">
         Close modal employee created
       </span>

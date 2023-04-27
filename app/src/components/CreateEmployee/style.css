@@ -1,5 +1,4 @@
 form {
-  width: 15.3152%;
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
@@ -12,25 +11,19 @@ label {
   cursor: pointer;
 }
 
-.department {
-  width: 88.4774%;
-}
-
 input {
   box-sizing: border-box;
-  width: 69.277%;
+  width: 202px;
   margin-top: 10px;
   cursor: pointer;
 }
 
-.state {
-  width: 99.3837%;
+.state,
+.department {
+  width: 16.125em;
 }
 
 fieldset {
+  width: auto;
   margin-top: 10px;
-}
-
-fieldset input {
-  width: 77.818%;
 }
