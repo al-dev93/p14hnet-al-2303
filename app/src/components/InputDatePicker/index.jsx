@@ -5,7 +5,6 @@ import { getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import getId from "../../utils/getId";
 import dateToString from "../../utils/dateToString";
-import isObject from "../../utils/isObject";
 import "react-datepicker/dist/react-datepicker.css";
 import style from "./style.module.css";
 
@@ -13,10 +12,10 @@ import style from "./style.module.css";
  * @description opens date picker when the field date is selected
  * @param {object} data
  * @param {setNewEmployee} setNewEmployee
- * @param {object or boolean} validInput
+ * @param {boolean} addEmployee
  * @returns render date picker
  */
-const InputDatePicker = ({ data, setNewEmployee, validInput }) => {
+const InputDatePicker = ({ data, setNewEmployee, addEmployee }) => {
   const [startDate, setStartDate] = useState(null);
   const ref = useRef(null);
   const id = getId(data.title);
@@ -41,8 +40,9 @@ const InputDatePicker = ({ data, setNewEmployee, validInput }) => {
    * @description empty the date field after submitting the form
    */
   useEffect(() => {
-    if (!isObject(validInput) && validInput) setStartDate(null);
-  }, [validInput]);
+    // if (!isObject(validInput) && validInput) setStartDate(null);
+    if (addEmployee) setStartDate(null);
+  }, [addEmployee]);
   /**
    * @description save the selected date in the current record
    * @param {object} date
@@ -131,12 +131,5 @@ export default InputDatePicker;
 InputDatePicker.propTypes = {
   data: PropTypes.objectOf(PropTypes.string).isRequired,
   setNewEmployee: PropTypes.func.isRequired,
-  validInput: PropTypes.oneOfType([
-    PropTypes.objectOf(PropTypes.string),
-    PropTypes.bool,
-  ]),
-};
-
-InputDatePicker.defaultProps = {
-  validInput: undefined,
+  addEmployee: PropTypes.bool.isRequired,
 };

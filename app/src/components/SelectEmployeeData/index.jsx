@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import getId from "../../utils/getId";
-import isObject from "../../utils/isObject";
 import style from "./style.module.css";
 
 /**
@@ -10,10 +9,10 @@ import style from "./style.module.css";
  * @param {object} data
  * @param {array of object} options
  * @param {function} setNewEmployee
- * @param {object or boolean} validInput
+ * @param {boolean} addEmployee
  * @returns render select input
  */
-const SelectEmployeeData = ({ data, options, setNewEmployee, validInput }) => {
+const SelectEmployeeData = ({ data, options, setNewEmployee, addEmployee }) => {
   const inputId = getId(data.title);
   const defaultValue = options[0];
   const { name } = data;
@@ -34,12 +33,13 @@ const SelectEmployeeData = ({ data, options, setNewEmployee, validInput }) => {
    * @description fills the select field with the default option after submitting the form
    */
   useEffect(() => {
-    if (!isObject(validInput) && validInput) setInputValue(defaultValue);
+    // if (!isObject(validInput) && validInput) setInputValue(defaultValue);
+    if (addEmployee) setInputValue(defaultValue);
     setNewEmployee((state) => ({
       ...state,
       [data.data]: inputValue.label,
     }));
-  }, [validInput]);
+  }, [addEmployee]);
   /**
    * @description saves the selected option in the current record
    * @param {object} select
@@ -72,12 +72,5 @@ SelectEmployeeData.propTypes = {
   data: PropTypes.objectOf(PropTypes.string).isRequired,
   options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   setNewEmployee: PropTypes.func.isRequired,
-  validInput: PropTypes.oneOfType([
-    PropTypes.objectOf(PropTypes.string),
-    PropTypes.bool,
-  ]),
-};
-
-SelectEmployeeData.defaultProps = {
-  validInput: undefined,
+  addEmployee: PropTypes.bool.isRequired,
 };

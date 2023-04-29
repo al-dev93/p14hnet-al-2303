@@ -63,13 +63,13 @@ const CreateEmployee = ({ employees, setEmployees, setOnCreatePage }) => {
       (type === "date" && (
         <InputDatePicker
           key={data.data}
-          {...{ data, setNewEmployee, validInput }}
+          {...{ data, setNewEmployee, addEmployee }}
         />
       )) ||
       (type === "list" && (
         <SelectEmployeeData
           key={data.data}
-          {...{ data, options, setNewEmployee, validInput }}
+          {...{ data, options, setNewEmployee, addEmployee }}
         />
       ))
     );
