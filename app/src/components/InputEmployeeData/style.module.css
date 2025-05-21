@@ -5,13 +5,6 @@
   flex-direction: column;
 }
 
-/* .wrapper .input {
-  box-sizing: border-box;
-  width: 69.277%;
-  margin-top: 10px;
-  cursor: pointer;
-} */
-
 /* stylelint-disable-next-line a11y/font-size-is-readable */
 .invalid-input {
   position: absolute;

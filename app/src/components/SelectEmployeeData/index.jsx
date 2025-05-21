@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import Select from "react-select";
-import getId from "../../utils/getId";
-import style from "./style.module.css";
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import Select from 'react-select';
+import getId from '../../utils/getId';
+import style from './style.module.css';
 
 /**
  * @description displays the selected element with the list of options passed
@@ -20,9 +20,9 @@ const SelectEmployeeData = ({ data, options, setNewEmployee, addEmployee }) => {
   const styles = {
     control: (base) => ({
       ...base,
-      ":hover": { backgroundColor: "#ededed" },
-      backgroundColor: "#f6f6f6",
-      cursor: "pointer",
+      ':hover': { backgroundColor: '#ededed' },
+      backgroundColor: '#f6f6f6',
+      cursor: 'pointer',
     }),
     container: (base) => ({
       ...base,

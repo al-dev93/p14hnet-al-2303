@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import getId from "../../utils/getId";
-import isObject from "../../utils/isObject";
-import style from "./style.module.css";
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import getId from '../../utils/getId';
+import isObject from '../../utils/isObject';
+import style from './style.module.css';
 
 /**
  * @description displays input element corresponding to the passed type
@@ -16,7 +16,7 @@ const InputEmployeeData = ({ data, type, setNewEmployee, validInput }) => {
   const id = getId(data.title);
   const name = data.data;
   const required = !!data.isRequired;
-  const defaultValue = "";
+  const defaultValue = '';
   const [isValid, setIsValid] = useState(false);
   /**
    * @description if the field is required, change the state to invalid when the field is empty
@@ -40,16 +40,13 @@ const InputEmployeeData = ({ data, type, setNewEmployee, validInput }) => {
     <div className={style.wrapper}>
       {/* displays the error message if the isValid state is true */}
       {isValid && (
-        <div className={style["invalid-input"]}>
-          <i
-            className={`${style["error-icon"]} fa-solid fa-circle-exclamation`}
-          />
+        <div className={style['invalid-input']}>
+          <i className={`${style['error-icon']} fa-solid fa-circle-exclamation`} />
           <span>required</span>
         </div>
       )}
       <label htmlFor={id}>{data.title}</label>
       <input
-        className={style.input}
         onChange={(event) => handleChange(event)}
         {...{ type, id, name, defaultValue, required }}
       />
@@ -63,10 +60,7 @@ InputEmployeeData.propTypes = {
   data: PropTypes.objectOf(PropTypes.string).isRequired,
   type: PropTypes.string.isRequired,
   setNewEmployee: PropTypes.func.isRequired,
-  validInput: PropTypes.oneOfType([
-    PropTypes.objectOf(PropTypes.string),
-    PropTypes.bool,
-  ]),
+  validInput: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.string), PropTypes.bool]),
 };
 
 InputEmployeeData.defaultProps = {

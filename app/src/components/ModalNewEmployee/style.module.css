@@ -46,7 +46,7 @@
   padding: 0;
   border: none;
   border-radius: 0;
-  background: url("../../assets/close.png") transparent center center no-repeat;
+  background: url('../../assets/close.png') transparent center center no-repeat;
   background-size: contain;
   cursor: pointer;
 }

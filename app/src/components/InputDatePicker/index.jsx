@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
-import DatePicker from "react-datepicker";
-import { getMonth, getYear } from "date-fns";
-import range from "lodash/range";
-import getId from "../../utils/getId";
-import dateToString from "../../utils/dateToString";
-import "react-datepicker/dist/react-datepicker.css";
-import style from "./style.module.css";
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { getMonth, getYear } from 'date-fns';
+import range from 'lodash/range';
+import getId from '../../utils/getId';
+import dateToString from '../../utils/dateToString';
+import 'react-datepicker/dist/react-datepicker.css';
+import style from './style.module.css';
 
 /**
  * @description opens date picker when the field date is selected
@@ -19,22 +19,22 @@ const InputDatePicker = ({ data, setNewEmployee, addEmployee }) => {
   const [startDate, setStartDate] = useState(null);
   const ref = useRef(null);
   const id = getId(data.title);
-  const dateFormat = "MM/dd/yyyy";
+  const dateFormat = 'MM/dd/yyyy';
   const today = new Date();
   const years = range(1950, getYear(today) + 1, 1);
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
   /**
    * @description empty the date field after submitting the form
@@ -69,18 +69,20 @@ const InputDatePicker = ({ data, setNewEmployee, addEmployee }) => {
           prevMonthButtonDisabled,
           nextMonthButtonDisabled,
         }) => (
-          <div className={style["header-date-picker"]}>
+          <div className={style['header-date-picker']}>
             <button
               type="button"
               onClick={decreaseMonth}
               disabled={prevMonthButtonDisabled}
+              aria-label="scrolls to the previous month"
             >
               <i className="fa fa-caret-left" />
             </button>
             <button
-              className={style["home-button"]}
+              className={style['home-button']}
               type="button"
               onClick={() => handleChange(today)}
+              aria-label="scrolls to today's date"
             >
               <i className="fa fa-home" />
             </button>
@@ -98,9 +100,7 @@ const InputDatePicker = ({ data, setNewEmployee, addEmployee }) => {
             <select
               className="custom-select-style"
               value={months[getMonth(date)]}
-              onChange={({ target: { value } }) =>
-                changeMonth(months.indexOf(value))
-              }
+              onChange={({ target: { value } }) => changeMonth(months.indexOf(value))}
             >
               {months.map((option) => (
                 <option key={option} value={option}>
@@ -112,6 +112,7 @@ const InputDatePicker = ({ data, setNewEmployee, addEmployee }) => {
               type="button"
               onClick={increaseMonth}
               disabled={nextMonthButtonDisabled}
+              aria-label="scrolls to the next month"
             >
               <i className="fa fa-caret-right" />
             </button>

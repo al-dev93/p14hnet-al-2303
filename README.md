@@ -1,4 +1,4 @@
-# Project 14 HRnet manages the records of employees of the company WealthHealth
+# HRnet project manages the records of employees of the company WealthHealth
 
 ## Context of the project
 
@@ -22,13 +22,13 @@ Once the repository is cloned on your computer, go to your terminal in the folde
 
 ### 3.1 With an empty database
 
-- Use the command `npm start`
-- The browser opens to the homepage, otherwise enter `http://localhost:3000` in the adress bar of the browser
+- Use the command `npm run start`
+- The browser opens to the homepage, otherwise enter `http://localhost:3000` in the address bar of the browser
 - The homepage is loaded. You can complete the form to create a record and save it or go to the data table using the button `view current employee`
 
 ### 3.2 With a pre-filled database
 
 - Use the command `npm run dev`
-- The browser opens to the homepage, otherwise enter `http://localhost:3000` in the adress bar of the browser
+- The browser opens to the homepage, otherwise enter `http://localhost:3000` in the address bar of the browser
 - The homepage is loaded. You can go to the data table using the button `view current employee`to see the mocked data.
 - You can add data to the mocked data by going to the form on the home page

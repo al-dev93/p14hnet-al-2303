@@ -7,8 +7,8 @@
 
 .header-date-picker {
   margin: 10px;
-  display: "flex";
-  justify-content: "center";
+  display: 'flex';
+  justify-content: 'center';
 }
 
 .header-date-picker > button {
